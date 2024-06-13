@@ -27,37 +27,30 @@ jobs:
     - name: Run CMake
       run: |
         cd build
-        cmake .. | tee ../cmake_output.txt
+        cmake ..
         ls -la
+        cd ..
 
     - name: Build with Make
       run: |
         cd build
-        make VERBOSE=1 | tee ../make_output.txt
+        make VERBOSE=1
         ls -la
-
-    - name: List files in the build directory
-      run: ls -la build
-
-    - name: Display CMake Output
-      run: cat cmake_output.txt
-
-    - name: Display Make Output
-      run: cat make_output.txt
+        cd ..
 
     - name: Run C++ program and check output
       run: |
         cd build
-        if [ -f "./my_program" ]; then
-          output=$(./my_program)
+        if [ -f "./example" ]; then
+          output=$(./example)
           echo "$output"
-          if echo "$output" | grep -q "Hello from my_function!"; then
+          if echo "$output" | grep -q "Тест пройден"; then
             echo "Function my_function was called successfully"
           else
             echo "Function my_function was not called"
             exit 1
           fi
         else
-          echo "Executable my_program not found"
+          echo "Executable example not found"
           exit 1
         fi
