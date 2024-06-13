@@ -27,13 +27,15 @@ jobs:
     - name: Run CMake
       run: |
         cd build
-        cmake ..
+        cmake .. > cmake_output.txt 2>&1
+        cat cmake_output.txt
         ls -la
 
     - name: Build with Make
       run: |
         cd build
-        make VERBOSE=1
+        make VERBOSE=1 > make_output.txt 2>&1
+        cat make_output.txt
         ls -la
 
     - name: List files in the build directory
