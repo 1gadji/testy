@@ -28,18 +28,15 @@ jobs:
       run: |
         cd build
         cmake ..
-        make
+        ls -la
 
-    - name: List files in the build directory
-      run: ls -la build
-
-    - name: Print CMake and Make output
+    - name: Build with Make
       run: |
         cd build
-        cmake ..
         make VERBOSE=1
+        ls -la
 
-    - name: Verify build output
+    - name: List files in the build directory
       run: ls -la build
 
     - name: Run C++ program and check output
