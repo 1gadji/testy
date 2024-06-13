@@ -33,17 +33,28 @@ jobs:
     - name: List files in the build directory
       run: ls -la build
 
+    - name: Print CMake and Make output
+      run: |
+        cd build
+        cmake ..
+        make VERBOSE=1
+
     - name: Verify build output
-      run: cat build/Makefile
+      run: ls -la build
 
     - name: Run C++ program and check output
       run: |
         cd build
-        output=$(./my_program)
-        echo "$output"
-        if echo "$output" | grep -q "Hello from my_function!"; then
-          echo "Function my_function was called successfully"
+        if [ -f "./my_program" ]; then
+          output=$(./my_program)
+          echo "$output"
+          if echo "$output" | grep -q "Hello from my_function!"; then
+            echo "Function my_function was called successfully"
+          else
+            echo "Function my_function was not called"
+            exit 1
+          fi
         else
-          echo "Function my_function was not called"
+          echo "Executable my_program not found"
           exit 1
         fi
