@@ -1,4 +1,4 @@
-CMakeFiles/example.dir/test.cpp.o: /home/adam/test/test.cpp \
+CMakeFiles/example.dir/test.cpp.o: /home/adam/t/test.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
