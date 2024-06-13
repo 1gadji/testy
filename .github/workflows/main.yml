@@ -33,14 +33,17 @@ jobs:
     - name: List files in the build directory
       run: ls -la build
 
-    - name: Run C++ program and check output
-      id: run_program
-      run: ./build/my_program
+    - name: Verify build output
+      run: cat build/Makefile
 
-    - name: Verify function call
+    - name: Run C++ program and check output
       run: |
-        if ! grep -q "Hello from my_function!" <(echo "${{ steps.run_program.outputs.stdout }}"); then
+        cd build
+        output=$(./my_program)
+        echo "$output"
+        if echo "$output" | grep -q "Hello from my_function!"; then
+          echo "Function my_function was called successfully"
+        else
           echo "Function my_function was not called"
           exit 1
         fi
-        echo "Function my_function was called successfully"
