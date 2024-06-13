@@ -19,12 +19,28 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y g++
+        sudo apt-get install -y cmake g++
 
-    - name: Compile C++ code
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Run CMake
       run: |
-        g++ -o my_program test.cpp
-        ls -la
+        cd build
+        cmake ..
+        make
 
-    - name: Run C++ program
-      run: ./my_program
+    - name: List files in the build directory
+      run: ls -la build
+
+    - name: Run C++ program and check output
+      id: run_program
+      run: ./build/my_program
+
+    - name: Verify function call
+      run: |
+        if ! grep -q "Hello from my_function!" <(echo "${{ steps.run_program.outputs.stdout }}"); then
+          echo "Function my_function was not called"
+          exit 1
+        fi
+        echo "Function my_function was called successfully"
