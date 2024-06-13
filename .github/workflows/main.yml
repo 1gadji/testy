@@ -1,0 +1,30 @@
+name: C++ CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Print working directory
+      run: pwd
+
+    - name: List files in the working directory
+      run: ls -la
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++
+
+    - name: Compile C++ code
+      run: |
+        g++ -o my_program test.cpp
+        ls -la
+
+    - name: Run C++ program
+      run: ./my_program
