@@ -1,0 +1,56 @@
+name: C++ CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Print working directory
+      run: pwd
+
+    - name: List files in the working directory
+      run: ls -la
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Run CMake
+      run: |
+        cd build
+        cmake ..
+        ls -la
+        cd ..
+
+    - name: Build with Make
+      run: |
+        cd build
+        make VERBOSE=1
+        ls -la
+        cd ..
+
+    - name: Run C++ program and check output
+      run: |
+        cd build
+        if [ -f "./example" ]; then
+          output=$(./example)
+          echo "$output"
+          if echo "$output" | grep -q "Тест пройден"; then
+            echo "Function my_function was called successfully"
+          else
+            echo "Function my_function was not called"
+            exit 1
+          fi
+        else
+          echo "Executable example not found"
+          exit 1
+        fi
